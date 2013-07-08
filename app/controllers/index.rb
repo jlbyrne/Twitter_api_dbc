@@ -5,11 +5,6 @@ get '/' do
 end
 
 post '/username' do
-  username = params[:username]
-  redirect "/#{username}"
-end
-
-get '/:username' do
   @username = params[:username]
   twitter_obj = Twitter.user(@username)
   current_user = TwitterUser.find_or_create_by_twitter_handle_and_user_id(@username, twitter_obj[:id].to_s)
@@ -27,5 +22,5 @@ get '/:username' do
     @current_tweets = current_user.tweets[-10..-1]
   end
  
-  erb :recent_tweets
+  erb :_recent_tweets, :layout => false
 end
